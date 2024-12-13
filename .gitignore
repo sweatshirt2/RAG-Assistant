@@ -1,0 +1,14 @@
+# installed packages
+.venv
+
+# secret keys
+.env
+
+# personal notes and quick checks
+*.ipynb
+
+# cache
+__pycache__/
+
+# logs
+*.log
