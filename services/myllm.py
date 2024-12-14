@@ -1,10 +1,4 @@
-from dotenv import load_dotenv, find_dotenv
-from os import getenv
-
-load_dotenv(find_dotenv())
-
-llm_key = getenv("LLM_KEY")
-vector_key = getenv("VECTOR_DB_KEY")
+from utils.constants import LLM_KEY
 
 
 def getLLM():
@@ -22,5 +16,5 @@ def getLLM():
         max_tokens=None,
         timeout=None,
         max_retries=3,
-        api_key=llm_key,
+        api_key=LLM_KEY,
     )
