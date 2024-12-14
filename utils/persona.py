@@ -13,10 +13,26 @@ class Persona:
 
     @classmethod
     def definePersona(cls, definition: str, is_redefined=False):
+        """defining the class system persona
+
+        Parameters:
+        definition (string): the definition for update
+        is_redefined (boolean): whether to rewrite or modify the existing persona
+
+        Return:
+        void
+        """
+
         cls.__system_persona = (
             definition if is_redefined else cls.__system_persona + definition
         )
 
     @classmethod
     def getSystemPersona(cls):
+        """access the class system persona
+
+        Return:
+        the class system persona
+        """
+
         return cls.__system_persona
