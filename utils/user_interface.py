@@ -1,6 +1,47 @@
-from utils.persona import system_persona
+from utils.persona import Persona
+from services.myllm import getLLM
 
 message = [
-    ("system", system_persona),
+    ("system", Persona.getSystemPersona()),
     ("human", "some question"),
 ]
+
+
+def getMessage(textInput: str):
+    return [
+        ("system", Persona.getSystemPersona()),
+        ("human", textInput),
+    ]
+
+
+def updateSystemPersona(input: list[str]):
+    processedDefinition = processDefinitions(input)
+    Persona.definePersona(processedDefinition)
+
+
+def changeSystemPersona(input: list[str]):
+    processDefinitions = processDefinitions(input)
+    Persona.definePersona(processDefinitions, True)
+
+
+def processDefinitions(definitions: list[str]):
+    return " ".join(definitions)
+
+
+def interactWithLLM():
+    myLLM = getLLM()
+
+    message = [
+        ("system", Persona.getSystemPersona()),
+    ]
+
+    print("You can ask your questions here \n Enter 0 to leave")
+    while True:
+        user_input = input()
+        if user_input == "0":
+            exit()
+        else:
+            new_message = message
+            new_message.append(("human", user_input))
+
+            print(myLLM.invoke(new_message))
