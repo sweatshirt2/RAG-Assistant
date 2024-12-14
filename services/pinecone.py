@@ -14,18 +14,35 @@ from time import sleep
 
 
 class PineConeService:
-    __my_index = "human-info-v1"
-    __my_namespace = "current-space"
+    """Pinecone service class to abstract pinecone methods
+
+    Attributes:
+    pinecone_instance: the pinecone interaction variable
+    my_index: index key for the current session
+    my_namespace: namespace for the current session
+    index: index to handle handle crud
+
+    Methods:
+    __createPineconeIndex() -> None
+    checkIndexStatus(str) -> boolean
+    getPineconeInstance() -> PineconeGRPC
+    embedText(list[str]) -> list
+    upsert(list[str]) -> None
+    search(str, int = 3) -> dict
+    wipeData(str) -> None
+    """
 
     def __init__(self):
         self.pinecone_instance = Pinecone(api_key=VECTOR_DB_KEY)
+        self.my_index = "human-info-v1"
+        self.my_namespace = "current-space"
         self.__createPineconeIndex()
-        self.index = self.pinecone_instance.Index(self.__class__.__my_index)
+        self.index = self.pinecone_instance.Index(self.my_index)
 
     def __createPineconeIndex(self):
-        if not self.pinecone_instance.has_index(self.__class__.__my_index):
+        if not self.pinecone_instance.has_index(self.my_index):
             self.pinecone_instance.create_index(
-                name=self.__class__.__my_index,
+                name=self.my_index,
                 dimension=1024,
                 metric="cosine",
                 spec=ServerlessSpec(cloud="aws", region="us-east-1"),
@@ -36,9 +53,7 @@ class PineConeService:
 
     def checkIndexStatus(self, status: str):
 
-        return self.pinecone_instance.describe_index(self.__class__.__my_index).status[
-            status
-        ]
+        return self.pinecone_instance.describe_index(self.my_index).status[status]
 
     def getPineconeInstance(self):
         return self.pinecone_instance
@@ -65,12 +80,10 @@ class PineConeService:
                 }
             )
 
-        self.index.upsert(vectors=records, namespace=self.__class__.__my_namespace)
+        self.index.upsert(vectors=records, namespace=self.__class__.my_namespace)
         sleep(10)
 
-    print("heelo")
-
-    def search(self, query: str, count: int):
+    def search(self, query: str, count: int = 3):
         query_embedding = self.pinecone_instance.inference.embed(
             model="multilingual-e5-large",
             inputs=[query],
@@ -80,7 +93,7 @@ class PineConeService:
         )[0]
 
         return self.index.query(
-            namespace=self.__class__.__my_namespace,
+            namespace=self.__class__.my_namespace,
             vector=query_embedding.values,
             top_k=count,
             include_values=False,
