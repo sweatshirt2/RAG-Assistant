@@ -1,4 +1,14 @@
 class Persona:
+    """Persona embedding class
+
+    Attributes:
+    __system_persona: the embedded value
+
+    Methods:
+    definePersona(str) -> None
+    getSystemPersona() -> str
+    """
+
     __system_persona = " ".join(
         [
             "You are an assistant to a web programmer.",
@@ -20,7 +30,7 @@ class Persona:
         is_redefined (boolean): whether to rewrite or modify the existing persona
 
         Return:
-        void
+        None
         """
 
         cls.__system_persona = (
