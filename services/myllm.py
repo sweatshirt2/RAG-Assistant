@@ -8,6 +8,12 @@ vector_key = getenv("VECTOR_DB_KEY")
 
 
 def getLLM():
+    """create a custom model
+
+    Return:
+    the custom model created
+    """
+
     from langchain_groq import ChatGroq
 
     return ChatGroq(

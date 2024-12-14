@@ -25,10 +25,21 @@ def changeSystemPersona(input: list[str]):
 
 
 def processDefinitions(definitions: list[str]):
+    """stringify list of persona definitions
+
+    Parameters:
+    definitions (list of string): the list to be parsed into string persona
+
+    Return:
+    the string form of the definitions
+    """
+
     return " ".join(definitions)
 
 
 def interactWithLLM():
+    """method to handle user interaction"""
+
     myLLM = getLLM()
 
     message = [
