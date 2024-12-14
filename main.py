@@ -6,16 +6,11 @@ from utils.user_interface import (
     interactWithLLM,
 )
 
-myLLM = getLLM()
-
-print("")
-
-ai_mssg = myLLM.invoke(getMessage("who are you"))
-print(ai_mssg)
+prompt_message = "Welcome!"
 
 while True:
     text_input = input(
-        "Welcome! Enter: \n 1 for a development assistant based on your tech stack \n 2 for other help \n"
+        f"{prompt_message} Enter: \n 1 for a development assistant based on your tech stack \n 2 for other help \n"
     )
 
     if text_input == "1":
@@ -32,3 +27,17 @@ while True:
                 break
 
         interactWithLLM()
+
+    elif text_input == "2":
+
+        prompt_type = "I would like you to assist me with."
+        user_assistance_input = input("What would you like me to assist you with? \n")
+        model_role = "You are " + input(
+            "What role should I take in the assistance process \n"
+        )
+        changeSystemPersona([prompt_type, user_assistance_input, model_role])
+
+        interactWithLLM()
+
+    else:
+        prompt_message = "Wrong Input"
