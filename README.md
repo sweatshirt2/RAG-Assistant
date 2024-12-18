@@ -32,7 +32,7 @@ To get started, you will need the following:
 - services
   - embedding classes for external services
 - utils
-  - classes and methods that start and begin within the program
+  - classes and methods that start and end within the program
   - reusable tools within the project
 
 ## Attention
